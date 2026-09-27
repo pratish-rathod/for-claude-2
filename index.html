@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LlamaParse Sponsor Segment</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<div id="viewport">
+<div id="stage">
+
+  <!-- ===== Persistent background ===== -->
+  <div id="bg">
+    <div class="glow" id="glow-a"></div>
+    <div class="glow" id="glow-b"></div>
+    <div class="glow" id="glow-c"></div>
+    <div id="grid"></div>
+    <div id="streaks"></div>
+  </div>
+
+  <div id="world">
+
+    <!-- 1. Quick interruption from my future self -->
+    <section class="shot" id="s-interrupt">
+      <div class="media-btn c" id="pause-btn" style="left:960px;top:470px">
+        <div class="ripple"></div><div class="ripple r2"></div>
+        <i data-icon="pause" class="solid ico-pause"></i>
+        <i data-icon="fast-forward" class="solid ico-ff"></i>
+      </div>
+      <div class="progress" id="progress-a" style="left:260px;top:846px;width:1400px">
+        <div class="track"></div><div class="played"></div>
+        <div class="knob"><div class="knob-tip"><i data-icon="clock"></i><span>future me</span></div></div>
+      </div>
+    </section>
+
+    <!-- 2. Sponsor gift -> podcast -> LlamaIndex reveal -> RAG -->
+    <section class="shot" id="s-brand">
+      <div class="pill c" id="sponsor-pill" style="left:960px;top:170px"><i data-icon="sparkles"></i><span>Sponsored by</span></div>
+      <div class="burst c" id="burst" style="left:960px;top:500px"><div class="rays"></div></div>
+      <div class="particles" id="confetti"></div>
+      <div class="gift c" id="gift" style="left:960px;top:590px">
+        <svg viewBox="0 0 360 380" width="360" height="380">
+          <defs>
+            <linearGradient id="gift-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24242c"/><stop offset="1" stop-color="#101014"/></linearGradient>
+            <linearGradient id="gift-lid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e2e38"/><stop offset="1" stop-color="#18181e"/></linearGradient>
+            <linearGradient id="gift-ribbon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3eb4fb"/><stop offset=".35" stop-color="#5475fd"/><stop offset=".6" stop-color="#d987f3"/><stop offset=".82" stop-color="#fe8cd2"/><stop offset="1" stop-color="#ff8722"/></linearGradient>
+            <radialGradient id="gift-shadow"><stop offset="0" stop-color="#000" stop-opacity=".7"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+          </defs>
+          <ellipse class="gift-shadow" cx="180" cy="356" rx="150" ry="18" fill="url(#gift-shadow)"/>
+          <g class="gift-body">
+            <rect x="52" y="160" width="256" height="190" rx="22" fill="url(#gift-body)" stroke="rgba(255,255,255,.14)" stroke-width="2"/>
+            <rect x="158" y="160" width="44" height="190" fill="url(#gift-ribbon)"/>
+            <rect class="gift-leak" x="54" y="160" width="252" height="6" rx="3" fill="#fff"/>
+          </g>
+          <g class="gift-lid">
+            <rect x="36" y="116" width="288" height="58" rx="18" fill="url(#gift-lid)" stroke="rgba(255,255,255,.16)" stroke-width="2"/>
+            <rect x="156" y="116" width="48" height="58" fill="url(#gift-ribbon)"/>
+            <ellipse cx="140" cy="94" rx="42" ry="24" transform="rotate(-24 140 94)" fill="none" stroke="url(#gift-ribbon)" stroke-width="15"/>
+            <ellipse cx="220" cy="94" rx="42" ry="24" transform="rotate(24 220 94)" fill="none" stroke="url(#gift-ribbon)" stroke-width="15"/>
+            <circle cx="180" cy="110" r="17" fill="url(#gift-ribbon)"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="card podcast-card c" id="podcast-card" style="left:1310px;top:560px">
+        <div class="pc-cover"><i data-icon="mic"></i></div>
+        <div class="pc-body">
+          <div class="pc-row">
+            <span class="chip"><i data-icon="audio-lines"></i>Podcast</span>
+            <span class="chip year-chip"><i data-icon="history" class="spin-icon"></i><span class="odo" id="podcast-year"><span class="odo-col"><span>2026</span><span>2025</span><span>2024</span><span>2023</span></span></span></span>
+          </div>
+          <div class="wave" id="podcast-wave" data-bars="34"></div>
+          <div class="pc-progress"><div class="pc-played"></div></div>
+        </div>
+      </div>
+
+      <div class="lockup-wrap c" id="li-wrap" style="left:960px;top:500px">
+        <div class="lockup" id="li-lockup">
+          <span class="llama" data-size="200" id="li-mark"></span>
+          <span class="wordmark" id="li-word">LlamaIndex</span>
+        </div>
+      </div>
+
+      <div class="rag" id="rag">
+        <svg class="rag-lines" width="1920" height="1080" viewBox="0 0 1920 1080">
+          <path id="rag-p1" d="M 575 700 L 705 700"/>
+          <path id="rag-p2" d="M 895 700 L 1025 700"/>
+          <path id="rag-p3" d="M 1215 700 L 1345 700"/>
+        </svg>
+        <div class="pulse" id="rag-pulse1"></div><div class="pulse" id="rag-pulse2"></div><div class="pulse" id="rag-pulse3"></div>
+        <div class="rag-node c" style="left:480px;top:700px"><div class="node-box"><i data-icon="files"></i></div><span>Docs</span></div>
+        <div class="rag-node c" style="left:800px;top:700px"><div class="node-box"><i data-icon="database"></i></div><span>Index</span></div>
+        <div class="rag-node c" style="left:1120px;top:700px"><div class="node-box"><i data-icon="brain"></i></div><span>LLM</span></div>
+        <div class="rag-node c" style="left:1440px;top:700px"><div class="node-box"><i data-icon="message-square-text"></i></div><span>Answer</span></div>
+        <div class="pill small c" id="rag-chip" style="left:960px;top:560px"><span>RAG</span></div>
+      </div>
+    </section>
+
+    <!-- 3. Jerry Liu, founder, on my podcast in 2023 -->
+    <section class="shot" id="s-jerry">
+      <div class="jerry-cam">
+        <div class="photo-wrap c" id="jerry-photo" style="left:640px;top:540px">
+          <div class="photo-ring"></div>
+          <img src="assets/img/jerry-liu.jpg" alt="Jerry Liu">
+          <div class="mic-badge"><i data-icon="mic"></i></div>
+        </div>
+        <div class="jerry-text" style="left:880px;top:330px">
+          <div class="mask"><div class="jerry-name">Jerry Liu</div></div>
+          <div class="jerry-role"><span class="llama" data-size="44"></span><span>Founder, LlamaIndex</span></div>
+          <div class="jerry-chips">
+            <span class="chip big" id="jerry-pod"><i data-icon="mic"></i>Podcast</span>
+            <span class="chip big year" id="jerry-year"><i data-icon="calendar-days"></i>2023</span>
+          </div>
+          <div class="wave" id="jerry-wave" data-bars="46"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Except now it's all about LlamaParse, their agentic OCR -->
+    <section class="shot" id="s-parse">
+      <div class="lockup-wrap c" id="lp-wrap" style="left:960px;top:470px">
+        <div class="lockup" id="lp-lockup">
+          <span class="llama" data-size="200" id="lp-mark"></span>
+          <span class="wordmark"><span>Llama</span><span class="swap" id="lp-swap"><span class="w-index">Index</span><span class="w-parse grad-text">Parse</span></span></span>
+        </div>
+      </div>
+      <div class="pill big c" id="agentic-chip" style="left:960px;top:690px"><i data-icon="scan-text"></i><span>Agentic OCR</span></div>
+      <div class="scanbeam" id="scanbeam"></div>
+    </section>
+
+    <!-- 5. Flashback: PDFs would remain a problem -->
+    <section class="shot" id="s-flash">
+      <div class="fb-tint"></div>
+      <div class="fb-filtered">
+        <div class="card rec-window c" id="rec-window" style="left:960px;top:560px">
+          <div class="rec-top"><span class="rec-dot"></span><span class="rec-label">REC</span><span class="rec-time mono" id="rec-time">00:42:17</span></div>
+          <div class="rec-tiles">
+            <div class="tile" id="tile-host">
+              <div class="avatar-generic"><i data-icon="user"></i></div>
+              <div class="wave tile-wave" id="host-wave" data-bars="24"></div>
+            </div>
+            <div class="tile" id="tile-guest">
+              <img src="assets/img/jerry-liu.jpg" alt="">
+              <div class="wave tile-wave" id="guest-wave" data-bars="24"></div>
+              <div class="name-tag">Jerry Liu</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fb-overlay">
+        <div class="fb-tag" id="fb-tag"><i data-icon="history"></i><span>2023</span></div>
+        <div class="pdf-page c" id="fb-page" style="left:600px;top:560px">
+          <div class="pg-inner">
+            <div class="pg-title"></div><div class="pg-line w80"></div><div class="pg-line w60"></div>
+            <div class="pg-table" id="fb-table"></div>
+            <div class="pg-chart"><b style="height:40%"></b><b style="height:70%"></b><b style="height:55%"></b><b style="height:90%"></b><b style="height:65%"></b></div>
+            <div class="pg-line w90"></div><div class="pg-line w70"></div>
+          </div>
+          <div class="pdf-tag"><i data-icon="file-text"></i>PDF</div>
+          <div class="warn-box" id="warn-box"></div>
+        </div>
+        <div class="fb-arrow c" id="fb-arrow" style="left:960px;top:560px"><i data-icon="arrow-right"></i></div>
+        <div class="card garble c" id="garble" style="left:1330px;top:560px">
+          <div class="garble-head"><i data-icon="file-text"></i><span class="mono">output.txt</span></div>
+          <pre class="mono garble-text" id="garble-text"></pre>
+        </div>
+        <div class="warn c" id="warn-1"><i data-icon="triangle-alert"></i></div>
+        <div class="warn c" id="warn-2"><i data-icon="triangle-alert"></i></div>
+        <div class="warn c" id="warn-3"><i data-icon="triangle-alert"></i></div>
+        <div class="year-ticker c" id="year-ticker" style="left:960px;top:150px"><i data-icon="clock"></i><span class="odo" id="ticker-odo"><span class="odo-col"><span>2023</span><span>2024</span><span>2025</span><span>2026</span></span></span></div>
+      </div>
+    </section>
+
+    <!-- 6. The most powerful OCR pipeline -->
+    <section class="shot" id="s-pipeline">
+      <svg class="pipe-svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+        <defs>
+          <linearGradient id="beam-grad" x1="0" x2="1"><stop offset="0" stop-color="#3eb4fb" stop-opacity="0"/><stop offset=".2" stop-color="#3eb4fb"/><stop offset=".5" stop-color="#987df8"/><stop offset=".8" stop-color="#fe8cd2"/><stop offset="1" stop-color="#ff8722" stop-opacity="0"/></linearGradient>
+        </defs>
+        <path id="pipe-in" d="M -80 540 L 650 540"/>
+        <path id="pipe-out" d="M 1270 540 L 1400 540"/>
+      </svg>
+      <div class="doc-stream" id="doc-stream"></div>
+      <div class="engine c" id="engine" style="left:960px;top:540px">
+        <div class="engine-glow"></div>
+        <div class="engine-core"><span class="llama" data-size="132"></span></div>
+        <div class="stages">
+          <div class="stage"><i data-icon="layout-panel-top"></i></div>
+          <div class="stage"><i data-icon="table"></i></div>
+          <div class="stage"><i data-icon="chart-column"></i></div>
+          <div class="stage"><i data-icon="scan-text"></i></div>
+          <div class="stage"><i data-icon="circle-check"></i></div>
+        </div>
+        <div class="engine-scan"></div>
+      </div>
+      <div class="outputs" id="outputs">
+        <div class="out-card"><div class="out-ico" style="--c:#3eb4fb"><i data-icon="hash"></i></div><div class="out-lines"><b class="w70"></b><b class="w45"></b></div><i data-icon="check" class="ok"></i></div>
+        <div class="out-card"><div class="out-ico" style="--c:#5475fd"><i data-icon="table"></i></div><div class="mini-table"><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div><i data-icon="check" class="ok"></i></div>
+        <div class="out-card"><div class="out-ico" style="--c:#d987f3"><i data-icon="braces"></i></div><div class="out-lines mono-lines"><b class="w55"></b><b class="w80"></b></div><i data-icon="check" class="ok"></i></div>
+        <div class="out-card"><div class="out-ico" style="--c:#ff8973"><i data-icon="chart-column"></i></div><div class="mini-bars"><b style="height:40%"></b><b style="height:75%"></b><b style="height:55%"></b><b style="height:95%"></b></div><i data-icon="check" class="ok"></i></div>
+      </div>
+      <div class="particles" id="pipe-particles"></div>
+    </section>
+
+    <!-- 7. They took that a bit personally -->
+    <section class="shot" id="s-personal">
+      <div class="bubble c" id="bubble" style="left:720px;top:520px">
+        <div class="bubble-tag"><i data-icon="history"></i>2023</div>
+        <div class="bubble-row">
+          <div class="b-ico swap-ico"><i data-icon="file-x" class="off"></i><i data-icon="file-check" class="on"></i></div>
+          <div class="b-ico swap-ico"><i data-icon="triangle-alert" class="off warn-ico"></i><i data-icon="circle-check" class="on ok"></i></div>
+          <div class="b-ico swap-ico"><i data-icon="infinity" class="off"></i><i data-icon="sparkles" class="on spark"></i></div>
+        </div>
+        <div class="bubble-tail"></div>
+      </div>
+      <div class="laser" id="laser"></div>
+      <div class="charger c" id="charger" style="left:1330px;top:500px">
+        <span class="llama" data-size="240"></span>
+        <div class="puff p1"></div><div class="puff p2"></div><div class="puff p3"></div>
+        <svg class="anger" id="anger" viewBox="0 0 100 100" width="84" height="84"><g fill="none" stroke="#ff5a6e" stroke-width="12" stroke-linecap="round"><path d="M40 8 Q40 40 8 40"/><path d="M60 8 Q60 40 92 40"/><path d="M8 60 Q40 60 40 92"/><path d="M92 60 Q60 60 60 92"/></g></svg>
+      </div>
+      <div class="speedlines" id="speedlines"></div>
+      <div class="particles" id="personal-particles"></div>
+    </section>
+
+    <!-- 8. Tables, charts and scans to the right model -->
+    <section class="shot" id="s-route">
+      <svg class="route-svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+        <path class="route-path" id="route-1" d="M 540 355 C 700 355, 760 540, 900 540 S 1150 300, 1330 300" style="--c:#3eb4fb"/>
+        <path class="route-path" id="route-2" d="M 540 560 C 700 560, 760 540, 900 540 S 1150 540, 1330 540" style="--c:#987df8"/>
+        <path class="route-path" id="route-3" d="M 540 770 C 700 770, 760 540, 900 540 S 1150 780, 1330 780" style="--c:#ff8722"/>
+      </svg>
+      <div class="pdf-page route-page c" id="route-page" style="left:360px;top:560px">
+        <div class="pg-title"></div><div class="pg-line w70"></div>
+        <div class="region r-table" id="reg-table"><div class="pg-table small"></div><div class="reg-box" style="--c:#3eb4fb"><span class="reg-tag"><i data-icon="table"></i>Table</span></div></div>
+        <div class="region r-chart" id="reg-chart"><div class="pg-chart tall"><b style="height:45%"></b><b style="height:80%"></b><b style="height:60%"></b><b style="height:95%"></b><b style="height:70%"></b><b style="height:52%"></b></div><div class="reg-box" style="--c:#987df8"><span class="reg-tag"><i data-icon="chart-column"></i>Chart</span></div></div>
+        <div class="region r-scan" id="reg-scan"><div class="scan-paper"><div class="scribble"></div><div class="scribble s2"></div><div class="stamp"></div></div><div class="reg-box" style="--c:#ff8722"><span class="reg-tag"><i data-icon="scan-line"></i>Scan</span></div></div>
+      </div>
+      <div class="router c" id="router" style="left:900px;top:540px"><div class="router-ring"></div><span class="llama" data-size="96"></span></div>
+      <div class="model c" id="model-1" style="left:1500px;top:300px;--c:#3eb4fb"><div class="m-type"><i data-icon="table"></i></div><i data-icon="arrow-right" class="m-arrow"></i><div class="m-brain"><i data-icon="cpu"></i></div><div class="m-check"><i data-icon="check"></i></div></div>
+      <div class="model c" id="model-2" style="left:1500px;top:540px;--c:#987df8"><div class="m-type"><i data-icon="chart-column"></i></div><i data-icon="arrow-right" class="m-arrow"></i><div class="m-brain"><i data-icon="cpu"></i></div><div class="m-check"><i data-icon="check"></i></div></div>
+      <div class="model c" id="model-3" style="left:1500px;top:780px;--c:#ff8722"><div class="m-type"><i data-icon="scan-line"></i></div><i data-icon="arrow-right" class="m-arrow"></i><div class="m-brain"><i data-icon="cpu"></i></div><div class="m-check"><i data-icon="check"></i></div></div>
+      <div class="flyer" id="fly-1" style="--c:#3eb4fb"><i data-icon="table"></i></div>
+      <div class="flyer" id="fly-2" style="--c:#987df8"><i data-icon="chart-column"></i></div>
+      <div class="flyer" id="fly-3" style="--c:#ff8722"><i data-icon="scan-line"></i></div>
+    </section>
+
+    <!-- 9. Traces every value back to its source -->
+    <section class="shot" id="s-trace">
+      <div class="app c" id="app" style="left:960px;top:550px">
+        <div class="app-bar"><span class="traffic"><b></b><b></b><b></b></span><span class="app-tab"><i data-icon="file-text"></i>report.pdf</span><span class="app-brand"><span class="llama" data-size="30"></span>LlamaParse</span></div>
+        <div class="app-body">
+          <div class="pane out-pane">
+            <div class="md-h"></div>
+            <div class="md-table" id="md-table"></div>
+            <div class="md-p"><b class="w90"></b><b class="w75"></b><b class="w60"></b></div>
+          </div>
+          <div class="pane src-pane">
+            <div class="src-page" id="src-page">
+              <div class="pg-title"></div><div class="pg-line w80"></div><div class="pg-line w55"></div>
+              <div class="src-table" id="src-table"></div>
+              <div class="pg-line w90"></div><div class="pg-line w70"></div><div class="pg-line w85"></div>
+              <div class="page-num mono">p. 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <svg class="trace-svg" id="trace-svg" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+    </section>
+
+    <!-- 10. Open benchmark: on top for a fraction of the cost -->
+    <section class="shot" id="s-bench">
+      <div class="card bench c" id="bench" style="left:960px;top:545px">
+        <div class="bench-head">
+          <div class="bench-title"><i data-icon="trophy"></i><span>ParseBench</span><span class="chip">Open benchmark</span></div>
+          <div class="legend"><span><i class="dot lp"></i>LlamaParse</span><span><i class="dot other"></i>Other parsers &amp; VLMs</span></div>
+        </div>
+        <div class="plot" id="plot">
+          <svg class="axes" id="axes" width="1320" height="600" viewBox="0 0 1320 600"></svg>
+          <div class="dots" id="dots"></div>
+          <div class="crown c" id="crown"><i data-icon="crown"></i></div>
+          <div class="price-tag c" id="price-tag"><span class="mono">1.25¢</span><small>/ page</small></div>
+          <div class="axis-label y-label"><i data-icon="arrow-right"></i>Accuracy</div>
+          <div class="axis-label x-label">Cost per page<i data-icon="arrow-right"></i></div>
+        </div>
+        <div class="bench-source">Source: ParseBench public leaderboard</div>
+      </div>
+    </section>
+
+    <!-- 11. Promo code + offer -->
+    <section class="shot" id="s-offer">
+      <div class="coupon-wrap c" id="coupon-wrap" style="left:960px;top:520px">
+        <div class="coupon" id="coupon">
+          <div class="coupon-label"><i data-icon="gift"></i><span>Promo code</span></div>
+          <div class="code-row">
+            <div class="code mono"><span class="code-text grad-text" id="code-text"></span><span class="caret" id="caret"></span></div>
+            <div class="copy-btn" id="copy-btn"><i data-icon="copy" class="i-copy"></i><i data-icon="check" class="i-check"></i></div>
+          </div>
+          <div class="notch n-top"></div><div class="notch n-bot"></div>
+        </div>
+      </div>
+      <div class="tiles">
+        <div class="tile-card c" id="tile-credits" style="left:420px;top:790px">
+          <div class="tc-head"><div class="tc-ico"><i data-icon="coins"></i></div><span class="tc-label" id="credit-label">free credits</span></div>
+          <div class="tc-big grad-text"><span class="mono-num" id="credit-num">$0</span></div>
+        </div>
+        <div class="tile-card c" id="tile-half" style="left:960px;top:790px">
+          <div class="tc-head"><div class="tc-ico"><i data-icon="badge-percent"></i></div><span class="tc-label">subscription</span></div>
+          <div class="tc-big"><span class="grad-text">50%</span> <span class="off">off</span></div>
+          <div class="months">
+            <span class="month"><i data-icon="calendar-days"></i><b>1</b></span>
+            <span class="month"><i data-icon="calendar-days"></i><b>2</b></span>
+            <span class="month"><i data-icon="calendar-days"></i><b>3</b></span>
+          </div>
+        </div>
+        <div class="tile-card c" id="tile-days" style="left:1500px;top:790px">
+          <div class="upgrade-btn" id="upgrade-btn"><i data-icon="rocket"></i>Upgrade</div>
+          <div class="ring-timer">
+            <svg width="150" height="150" viewBox="0 0 150 150"><circle class="rt-bg" cx="75" cy="75" r="62"/><circle class="rt-fg" id="rt-fg" cx="75" cy="75" r="62"/></svg>
+            <div class="rt-num"><b>30</b><span>days</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. First link in the description -->
+    <section class="shot" id="s-link">
+      <div class="lockup-wrap small c" id="link-lockup" style="left:960px;top:150px">
+        <div class="lockup"><span class="llama" data-size="72"></span><span class="wordmark">LlamaParse</span></div>
+      </div>
+      <div class="card desc c" id="desc" style="left:960px;top:560px">
+        <div class="desc-head"><div class="yt-avatar"></div><div class="desc-meta"><b class="w45"></b><b class="w25"></b></div></div>
+        <div class="desc-link" id="desc-link">
+          <span class="num">1</span><span class="llama" data-size="44"></span><span class="dl-text">LlamaParse</span><i data-icon="link" class="dl-ico"></i><span class="dl-go"><i data-icon="arrow-right"></i></span>
+        </div>
+        <div class="desc-lines"><b class="w70"></b><b class="w85"></b><b class="w50"></b><b class="w65"></b></div>
+      </div>
+      <div class="below c" id="below" style="left:960px;top:955px"><i data-icon="chevrons-down"></i></div>
+    </section>
+
+    <!-- 13. Support Jerry Liu and his amazing team -->
+    <section class="shot" id="s-team">
+      <div class="orbit" id="orbit"></div>
+      <div class="photo-wrap c team-photo" id="team-photo" style="left:960px;top:480px">
+        <div class="photo-ring"></div>
+        <img src="assets/img/jerry-liu.jpg" alt="Jerry Liu">
+      </div>
+      <div class="heart c" id="heart" style="left:1085px;top:355px"><i data-icon="heart" class="solid"></i></div>
+      <div class="team-name c" id="team-name" style="left:960px;top:690px">Jerry Liu <span class="amp">&amp; team</span></div>
+      <div class="lockup-wrap tiny c" id="team-lockup" style="left:960px;top:800px">
+        <div class="lockup"><span class="llama" data-size="52"></span><span class="wordmark">LlamaIndex</span></div>
+      </div>
+      <div class="particles" id="hearts"></div>
+    </section>
+
+    <!-- 14. The whole October month -->
+    <section class="shot" id="s-october">
+      <div class="card cal c" id="cal" style="left:960px;top:545px">
+        <div class="cal-head">
+          <div class="cal-title"><i data-icon="calendar-days"></i><span id="cal-month">October</span><span class="cal-year">2026</span></div>
+          <div class="code-chip mono" id="cal-code">SUMMERGIFT26</div>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+    </section>
+
+    <!-- 15. Back to the video -->
+    <section class="shot" id="s-outro">
+      <div class="lockup-wrap c" id="end-lockup" style="left:960px;top:440px">
+        <div class="lockup"><span class="llama" data-size="150"></span><span class="wordmark">LlamaParse</span></div>
+      </div>
+      <div class="end-row c" id="end-row" style="left:960px;top:630px">
+        <div class="code-chip mono big">SUMMERGIFT26</div>
+        <div class="pill"><i data-icon="link"></i><span>First link below</span></div>
+      </div>
+      <div class="media-btn c" id="play-btn" style="left:960px;top:470px">
+        <div class="ripple"></div>
+        <i data-icon="play" class="solid"></i>
+      </div>
+      <div class="progress" id="progress-b" style="left:260px;top:846px;width:1400px">
+        <div class="track"></div><div class="played"></div><div class="knob"></div>
+      </div>
+      <div class="iris" id="iris"></div>
+    </section>
+
+  </div>
+
+  <!-- ===== Overlays ===== -->
+  <div id="cursor"><svg viewBox="0 0 32 32" width="46" height="46"><path d="M7 3.5 L7 26 L12.6 20.6 L16.6 29.4 L20.4 27.7 L16.5 19.1 L24.3 19.1 Z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg><div class="click-ring"></div></div>
+  <div id="flash"></div>
+  <div id="grain"></div>
+  <div id="vignette"></div>
+  <div id="blackout"></div>
+</div>
+</div>
+
+<!-- Preview controls (hidden when rendering) -->
+<div id="controls">
+  <button id="btn-play" title="Play / pause (space)">Play</button>
+  <input id="scrub" type="range" min="0" max="1000" value="0" step="1">
+  <span id="clock" class="mono">0.00</span>
+  <label title="Show the script line under the video to check pacing"><input type="checkbox" id="chk-captions" checked> captions</label>
+  <label class="file-btn" title="Load your recorded voiceover to check sync">Load VO <input type="file" id="vo-file" accept="audio/*"></label>
+  <div id="caption"></div>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="src/llama-path.js"></script>
+<script src="src/icons.js"></script>
+<script src="src/parsebench.js"></script>
+<script src="src/cues.js"></script>
+<script src="src/lib.js"></script>
+<script src="src/scenes.js"></script>
+<script src="src/player.js"></script>
+</body>
+</html>
