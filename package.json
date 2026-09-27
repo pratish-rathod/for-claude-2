@@ -7,7 +7,8 @@
     "preview": "node tools/serve.mjs",
     "stills": "node tools/stills.mjs",
     "render": "node tools/render.mjs",
-    "render:draft": "node tools/render.mjs --fps 30 --scale 0.5 --out out/draft.mp4"
+    "render:draft": "node tools/render.mjs --fps 30 --scale 0.5 --out out/draft.mp4",
+    "sound": "node tools/sound.mjs"
   },
   "devDependencies": {
     "@fontsource-variable/inter": "5.3.0",

@@ -19,6 +19,8 @@ window.buildScenes = function () {
   const frame = (a, b, fn) => FR.push({ a, b, fn });
   const G = { glow: 0.8, grid: 0 }; // animated globals read by frame callbacks
   const DUR = L.duration();
+  const snd = (t, type, o) => SOUND.add(t, type, o); // sound design events (src/sound.js)
+  const pan = SOUND.panX;
 
   // ---------------------------------------------------------------- helpers
   function shot(sel, tin, tout, { fadeIn = 0.35, fadeOut = 0.3, drift = 0.025 } = {}) {
@@ -370,6 +372,15 @@ window.buildScenes = function () {
   tl.to(G, { grid: -900, duration: 1.0, ease: 'expo.inOut' }, tFut - 0.15);
   tl.to('#s-interrupt', { autoAlpha: 0, scale: 1.12, duration: 0.3, ease: 'power2.in' }, t1out - 0.3);
   flash(t1out - 0.1, 0.3, 0.45);
+  // sound
+  snd(0.02, 'swish', { dur: 0.55, f0: 700, fp: 3200, f1: 1500, gain: -26, pan: -0.25, pan1: 0.25 });
+  snd(tPause - 0.02, 'scratch', { gain: -15 });
+  snd(tPause, 'thud', { gain: -13 });
+  snd(tPause + 0.01, 'click', { gain: -18 });
+  snd(tFut - 0.18, 'tick', { pitch: 2200, gain: -22 });
+  snd(tFut - 0.12, 'ffwd', { dur: 0.8, gain: -17 });
+  snd(tFut, 'pop', { pitch: 880, gain: -21, pan: pan(1562) });
+  snd(t1out - 0.32, 'whoosh', { dur: 0.5, f0: 500, fp: 3500, f1: 1200, gain: -19 });
 
   frame(0, t1out, () => {
     const pa = $('#progress-a');
@@ -485,6 +496,28 @@ window.buildScenes = function () {
     L.driveWave(waves['podcast-wave'], t, lvl, 3);
   });
 
+  // sound
+  snd(t2in + 0.12, 'tick', { pitch: 1800, gain: -25 });
+  snd(tLand - 0.45, 'whoosh', { dur: 0.45, f0: 2200, fp: 1200, f1: 260, peakAt: 0.9, gain: -20, body: 0.5 });
+  snd(tLand, 'thud', { gain: -11 });
+  snd(tSponsor - 0.06, 'rattle', { gain: -16 });
+  snd(tSponsor, 'sparkle', { dur: 0.6, n: 8, gain: -27 });
+  snd(tSponsor + 0.95, 'rattle', { gain: -20, n: 4 });
+  snd(tPod - 0.25, 'swish', { dur: 0.4, gain: -24, pan: 0, pan1: -0.4 });
+  snd(tPod + 0.02, 'whoosh', { dur: 0.55, f0: 600, fp: 2800, f1: 1000, peakAt: 0.35, gain: -19, pan: 0.8, pan1: 0.35 });
+  snd(at('podcast', 'podcast') - 0.05, 'tick', { pitch: 2000, gain: -23, pan: 0.25 });
+  snd(tYears - 0.24, 'rewind', { dur: 0.6, gain: -22 });
+  [0.35, 0.45, 0.62].forEach((dt, i) => snd(tYears - 0.22 + dt, 'tickTock', { tock: i % 2 === 1, gain: -23, pan: 0.4 }));
+  snd(tYears + 0.45, 'marimba', { deg: 7, gain: -23, pan: 0.4, decay: 0.6 });
+  snd(tLI - 0.5, 'swish', { dur: 0.4, gain: -23, pan: 0.4, pan1: 0.85 });
+  snd(tLI, 'sting', { variant: 'index' });
+  snd(tLI + 0.02, 'confetti', { gain: -22 });
+  snd(tLI + 0.46, 'swish', { dur: 0.5, f0: 1500, fp: 4500, f1: 2500, gain: -26, pan: -0.3, pan1: 0.4 });
+  snd(tRag - 0.12, 'swish', { dur: 0.5, f0: 800, fp: 3000, f1: 1600, gain: -24 });
+  [480, 800, 1120, 1440].forEach((x, i) => snd(tRag + 0.3 + i * 0.1, 'pop', { pitch: SOUND.note([0, 2, 3, 5][i]), gain: -20, pan: pan(x) }));
+  snd(tRagWord - 0.12, 'marimba', { deg: 5, gain: -21, decay: 0.8 });
+  snd(tRag + 0.8, 'zip', { dur: 0.9, f0: 600, f1: 1500, gain: -28, pan: -0.5, pan1: 0.5 });
+
   // =================================================== 3. Jerry Liu on the podcast
   const t3in = at('jerry') - 0.12;
   const t3out = at('except') + 0.02;
@@ -504,11 +537,20 @@ window.buildScenes = function () {
   tl.to('#jerry-wave', { autoAlpha: 1, duration: 0.4 }, tJp);
   gsap.set('#jerry-year', { autoAlpha: 0, rotationX: -90, transformPerspective: 600, transformOrigin: '50% 50%' });
   tl.to('#jerry-year', { autoAlpha: 1, rotationX: 0, duration: 0.65, ease: 'back.out(2)' }, at('jerry', 'twenty') - 0.1);
-  const jerryRing = $('#s-jerry .photo-ring');
+  const jerryRing = $('#s-jerry .spin');
   frame(t3in, t3out, (t) => {
     jerryRing.style.transform = `rotate(${(t * 40).toFixed(2)}deg)`;
     L.driveWave(waves['jerry-wave'], t, prog(t, tJp, tJp + 0.6), 7);
   });
+
+  // sound
+  snd(t3in, 'whoosh', { dur: 0.45, gain: -21 });
+  snd(t3in + 0.05, 'pop', { pitch: 520, gain: -18, pan: pan(590) });
+  snd(at('jerry', 'Jerry') - 0.12, 'swish', { dur: 0.35, f0: 1000, fp: 3800, f1: 2000, gain: -25, pan: 0.2 });
+  snd(at('jerry', 'founder') - 0.1, 'tick', { pitch: 1900, gain: -25, pan: 0.2 });
+  snd(tJp - 0.08, 'pop', { pitch: 740, gain: -20, pan: 0.05 });
+  snd(tJp - 0.01, 'pop', { pitch: 988, gain: -21, pan: pan(780) });
+  snd(at('jerry', 'twenty') - 0.1, 'flip', { gain: -22, pan: 0.3 });
 
   // =================================================== 4. LlamaParse, agentic OCR
   const t4in = at('except') - 0.1;
@@ -536,6 +578,15 @@ window.buildScenes = function () {
   tl.to('#scanbeam', { y: 790, duration: 1.0, ease: 'power2.inOut' }, tAg - 0.05);
   tl.to('#scanbeam', { opacity: 0, duration: 0.2 }, tAg + 0.8);
   tl.to('#agentic-chip', { scale: 1.06, duration: 0.15, yoyo: true, repeat: 1 }, tAg + 0.55);
+
+  // sound
+  snd(t4in, 'whoosh', { dur: 0.5, f0: 400, fp: 2600, f1: 900, gain: -21 });
+  for (let i = 0; i < 5; i++) snd(tSwap + i * 0.035, 'tick', { pitch: 2600 - i * 180, gain: -25, pan: 0.15 });
+  snd(tSwap, 'whoosh', { dur: 1.0, peakAt: 0.5, f0: 300, fp: 2000, f1: 600, gain: -21, pan: -0.45, pan1: -0.3 });
+  for (let i = 0; i < 5; i++) snd(tSwap + 0.28 + i * 0.045, 'tick', { pitch: 1800 + i * 220, gain: -24, pan: 0.15 });
+  snd(tSwap + 0.4, 'sting', { variant: 'parse' });
+  snd(tOcr - 0.12, 'pop', { pitch: 660, gain: -19 });
+  snd(tAg - 0.05, 'scan', { dur: 1.0, gain: -22 });
 
   // =================================================== 5. flashback: "PDFs will remain a problem"
   const t5in = at('episode') - 0.1;
@@ -614,6 +665,21 @@ window.buildScenes = function () {
     }
   });
 
+  // sound (lo-fi where it belongs to the 2023 recording)
+  snd(t5in, 'reverse', { dur: 0.5, gain: -20 });
+  snd(t5in, 'vinyl', { t1: at('pipeline') - 0.05, gain: -30 });
+  snd(t5in + 0.2, 'recBeep', { gain: -25, pan: -0.45, lofi: true });
+  snd(tEpJ - 0.12, 'tick', { pitch: 2000, gain: -25, pan: 0.3, lofi: true });
+  snd(tPdf - 0.1, 'swish', { dur: 0.35, gain: -24, lofi: true });
+  snd(tP - 0.35, 'paper', { gain: -19, pan: -0.55, pan1: -0.35, lofi: true });
+  snd(tP - 0.05, 'tick', { pitch: 1700, gain: -26, lofi: true });
+  snd(tP + 0.05, 'swish', { dur: 0.35, gain: -23, pan: 0.65, pan1: 0.4, lofi: true });
+  snd(tP + 0.3, 'chatter', { dur: tProb - 0.1 - (tP + 0.3), gain: -24, pan: 0.4, lofi: true });
+  ['#warn-1', '#warn-2', '#warn-3'].forEach((w, k) => snd(tProb - 0.12 + k * 0.12, 'error', { pitch: [415, 392, 370][k], gain: -18, pan: pan(parseFloat($(w).style.left)) }));
+  snd(tProb, 'glitch', { dur: 0.25, gain: -21, pan: 0.4 });
+  [tLong - 0.85, tLong - 0.45, tLong - 0.1, tLong + 0.22, at('pipeline') - 0.18].forEach((tt, k) => snd(tt, 'tickTock', { tock: k % 2 === 1, gain: -21 }));
+  snd(at('pipeline') - 0.04, 'riser', { dur: 0.75, gain: -19 });
+
   // =================================================== 6. the pipeline
   const t6in = at('pipeline') - 0.04;
   const t6out = at('personal') - 0.06;
@@ -685,6 +751,19 @@ window.buildScenes = function () {
     engineScan.style.transform = `translateY(${(40 + sp * 300).toFixed(1)}px)`;
     engineScan.style.opacity = (Math.sin(Math.PI * sp) * 0.9).toFixed(3);
   });
+
+  // sound
+  snd(t6in, 'impact', { gain: -8, size: 1.2 });
+  snd(t6in, 'sparkle', { dur: 1.2, n: 20, gain: -24 });
+  snd(t6in + 0.05, 'powerUp', { dur: 0.8, gain: -19 });
+  snd(t6in + 0.3, 'hum', { t1: t6out, gain: -29 });
+  for (let tt = t6in + 0.25; tt < t6out - 0.3; tt += 0.34) snd(tt, 'swish', { dur: 0.3, f0: 1500, fp: 4500, f1: 2500, gain: -31, pan: -0.8, pan1: -0.3 });
+  for (let k = 0; k < 4; k++) {
+    snd(t6in + 0.75 + k * 0.34, 'swish', { dur: 0.25, gain: -28, pan: 0.45, pan1: 0.6 });
+    snd(t6in + 1.0 + k * 0.34, 'marimba', { deg: 5 + k, gain: -21, pan: 0.65 });
+  }
+  snd(tPow - 0.05, 'surge', { gain: -17 });
+  snd(tPipe - 0.1, 'chime', { notes: [0, 2, 4, 7, 9], spacing: 0.05, decay: 1.6, gain: -20 });
 
   // =================================================== 7. "took that a bit personally"
   const t7in = at('personal') - 0.1;
@@ -766,6 +845,17 @@ window.buildScenes = function () {
     });
   });
 
+  // sound
+  snd(t7in + 0.05, 'pop', { pitch: 440, gain: -18, pan: pan(720) });
+  snd(tChargeIn, 'whoosh', { dur: 0.55, f0: 2500, fp: 1500, f1: 400, peakAt: 0.25, gain: -17, pan: 0.9, pan1: 0.4 });
+  snd(tPers - 1.05, 'grumble', { gain: -20, pan: 0.4 });
+  [0, 1, 2].forEach((i) => snd(tPers - 0.95 + i * 0.2, 'steam', { gain: -22, pan: 0.35 }));
+  snd(tPers - 0.3, 'windup', { dur: 0.25, gain: -22, pan: 0.45 });
+  snd(tPers - 0.05, 'laser', { gain: -12, pan: 0.45, pan1: -0.2 });
+  snd(tPers + 0.1, 'impact', { gain: -15, size: 0.6 });
+  snd(tPers + 0.12, 'sparkle', { dur: 0.8, n: 16, gain: -22 });
+  snd(tPers + 0.16, 'chime', { notes: [5, 7, 10], spacing: 0.08, decay: 1.2, gain: -18, pan: pan(720) });
+
   // =================================================== 8. tables, charts, scans -> right model
   const t8in = at('route') - 0.12;
   const t8out = at('trace') - 0.02;
@@ -810,6 +900,19 @@ window.buildScenes = function () {
     });
   });
 
+  // sound
+  snd(t8in, 'swish', { dur: 0.4, gain: -22, pan: -0.8, pan1: -0.55 });
+  snd(t8in + 0.15, 'pop', { pitch: 520, gain: -20, pan: pan(900) });
+  snd(t8in + 0.2, 'swish', { dur: 0.45, gain: -26, pan: 0.8, pan1: 0.55 });
+  ROUTE_MARKS.forEach((m, i) => {
+    const t0 = flyT[i];
+    snd(t0 - 0.08, 'marimba', { deg: [3, 4, 5][i], gain: -21, pan: -0.6, decay: 0.3 });
+    snd(t0 + 0.02, 'zip', { dur: 0.8, f0: 500 + 150 * i, f1: 1200 + 200 * i, gain: -25, pan: -0.55, pan1: 0.6 });
+    snd(t0 + 0.38, 'tick', { pitch: 2400, gain: -27, pan: pan(900) });
+    snd(t0 + 0.82, 'lock', { gain: -20, pan: 0.6 });
+  });
+  snd(tRight - 0.05, 'chime', { notes: [4, 7, 9], spacing: 0.08, decay: 1.2, gain: -19, pan: 0.6 });
+
   // =================================================== 9. trace every value to its source
   const t9in = at('trace') - 0.05;
   const t9out = at('bench') - 0.05;
@@ -840,6 +943,17 @@ window.buildScenes = function () {
   tl.to('#s-trace .src-table .bbox', { scale: 1.12, duration: 0.14, yoyo: true, repeat: 1, stagger: 0.02 }, tSource - 0.2);
   tl.to('#s-trace .page-num', { color: '#6b5bff', scale: 1.4, duration: 0.3, ease: 'back.out(2)', transformOrigin: '100% 100%' }, tSource - 0.15);
 
+  // sound
+  snd(t9in, 'whoosh', { dur: 0.6, f0: 300, fp: 2000, f1: 700, gain: -20 });
+  order.forEach((idx, j) => {
+    const t0 = j === 0 ? t9in + 0.78 : tEvery + 0.05 + (j - 1) * 0.1;
+    if (j === 0) snd(t0, 'click', { gain: -18, pan: pan(A.mdCells[0].cx) });
+    snd(t0 + 0.4, 'marimba', { deg: j, gain: -23, pan: pan(A.srcCells[idx].cx), decay: 0.35 });
+  });
+  snd(tEvery + 0.05, 'swish', { dur: 1.3, f0: 800, fp: 3000, f1: 1800, gain: -28, pan: -0.3, pan1: 0.45 });
+  snd(tSource - 0.2, 'chime', { notes: [4, 7, 9, 11], spacing: 0.04, decay: 1.4, gain: -21, pan: 0.45 });
+  snd(tSource - 0.15, 'tick', { pitch: 2800, gain: -24, pan: 0.65 });
+
   // =================================================== 10. ParseBench
   const t10in = at('bench') - 0.1;
   const t10out = at('code') - 0.06;
@@ -856,6 +970,7 @@ window.buildScenes = function () {
     const shuffled = otherDots.map((d) => [r(), d]).sort((a, b) => a[0] - b[0]).map((x) => x[1]);
     gsap.set(otherDots, { scale: 0, autoAlpha: 0 });
     tl.to(shuffled, { scale: 1, autoAlpha: 0.85, duration: 0.35, ease: 'back.out(2.5)', stagger: 0.012 }, tBench - 0.25);
+    shuffled.forEach((d, k) => snd(tBench - 0.2 + k * 0.012, 'plink', { deg: 8 + Math.floor(r() * 7), gain: -32, pan: pan(330 + parseFloat(d.style.left)) }));
   }
   const tTop = at('top', 'top');
   const tFrac = at('top', 'fraction');
@@ -876,6 +991,13 @@ window.buildScenes = function () {
   // other dots dim once LlamaParse is on top
   tl.to(otherDots, { autoAlpha: 0.45, duration: 0.5 }, tTop + 0.2);
   glow(tTop, 1.35, 1.0);
+
+  // sound
+  snd(t10in, 'whoosh', { dur: 0.6, f0: 300, fp: 2200, f1: 800, gain: -20 });
+  lpList.forEach((d, k) => snd(tTop - 0.15 + k * 0.1, 'marimba', { deg: 7 + 2 * k, gain: -20, pan: pan(330 + parseFloat(d.style.left)), decay: 0.6 }));
+  snd(tTop + 0.05, 'crown', { gain: -17, pan: pan(330 + parseFloat(topDot.style.left)) });
+  snd(tTop + 0.1, 'sparkle', { dur: 0.8, n: 10, gain: -27, spread: 0.5 });
+  snd(tFrac - 0.12, 'coin', { gain: -18, pan: pan(330 + parseFloat(agDot.style.left)) });
 
   // =================================================== 11. promo code + offer
   const t11in = at('code') - 0.1;
@@ -930,6 +1052,23 @@ window.buildScenes = function () {
     $('#credit-num').textContent = '$' + v;
   });
 
+  // sound
+  snd(t11in, 'whoosh', { dur: 0.7, f0: 300, fp: 2400, f1: 900, peakAt: 0.5, gain: -19 });
+  for (let k = 0; k < CODE.length; k++) snd(tType + ((k + 1) / CODE.length) * 1.0 - 0.004, 'key', { gain: -20, pan: -0.4 + 0.6 * (k / (CODE.length - 1)) });
+  snd(tCopy, 'click', { gain: -17, pan: pan(A.copyBtn.cx) });
+  snd(tCopy + 0.08, 'chime', { notes: [5, 9], spacing: 0.07, decay: 1.0, gain: -18, pan: pan(A.copyBtn.cx) });
+  snd(tCred - 0.12, 'swish', { dur: 0.6, f0: 600, fp: 2500, f1: 1400, gain: -25 });
+  snd(tTwo - 0.25, 'swish', { dur: 0.45, gain: -24, pan: pan(420) });
+  for (let k = 1; k <= 25; k++) snd(tTwo + 0.9 * (1 - Math.cbrt(1 - k / 25)), 'tick', { pitch: 1700 + 45 * k, gain: -27, pan: pan(420) });
+  snd(tTwo + 0.92, 'coin', { gain: -19, pan: pan(420) });
+  snd(tHalf - 0.3, 'swish', { dur: 0.45, gain: -24 });
+  [0, 1, 2].forEach((k) => snd(tThree - 0.08 + k * 0.12, 'pop', { pitch: SOUND.note([0, 2, 4][k]), gain: -19, pan: pan(840 + k * 110) }));
+  snd(tUp - 0.45, 'swish', { dur: 0.45, gain: -24, pan: pan(1500) });
+  snd(tUp + 0.1, 'click', { gain: -17, pan: pan(A.upgradeBtn.cx) });
+  snd(tUp + 0.14, 'levelUp', { gain: -19, pan: pan(A.upgradeBtn.cx) });
+  for (let k = 1; k <= 30; k++) snd(tThirty - 0.12 + 1.0 * (1 - Math.sqrt(1 - k / 30)), 'tick', { pitch: 2400 + 25 * k, gain: -29, pan: pan(1500) });
+  snd(tThirty + 0.9, 'marimba', { deg: 9, gain: -21, pan: pan(1500), decay: 0.8 });
+
   // =================================================== 12. link in the description
   const t12in = at('link') - 0.1;
   const t12out = at('team') - 0.05;
@@ -956,6 +1095,15 @@ window.buildScenes = function () {
     const b = $('#below svg');
     b.style.transform = `translateY(${(Math.abs(Math.sin((t - tBelow) * 5.5)) * 16).toFixed(1)}px)`;
   });
+
+  // sound
+  snd(t12in, 'whoosh', { dur: 0.7, f0: 300, fp: 2200, f1: 900, gain: -20 });
+  snd(tFirst - 0.12, 'sparkle', { dur: 0.5, n: 6, gain: -28 });
+  snd(tFirst - 0.1, 'pop', { pitch: 880, gain: -19, pan: pan(478) });
+  snd(tFirst + 0.35, 'click', { gain: -16, pan: pan(A.descGo.cx) });
+  snd(tFirst + 0.38, 'swish', { dur: 0.35, gain: -24, pan: pan(A.descGo.cx), pan1: 0.9 });
+  snd(tBelow - 0.2, 'pop', { pitch: 660, gain: -20 });
+  snd(tBelow + 0.05, 'boop', { gain: -21 });
 
   // =================================================== 13. support Jerry and the team
   const t13in = at('team') - 0.05;
@@ -998,13 +1146,22 @@ window.buildScenes = function () {
       const t0 = tFriend + 0.2 + i * 0.22;
       const s = t - t0;
       if (s < 0 || s > 1.8) { h.style.opacity = 0; return; }
-      const x = 960 + (r() - 0.5) * 900;
+      const x = 960 + (i % 2 ? 1 : -1) * (230 + r() * 260); // keep clear of Jerry's photo
       const y = 820 - s * 260;
       h.style.left = (x + Math.sin(s * 4 + i) * 20).toFixed(1) + 'px';
       h.style.top = y.toFixed(1) + 'px';
       h.style.opacity = (Math.sin(Math.PI * s / 1.8) * 0.85).toFixed(3);
     });
   });
+
+  // sound
+  snd(t13in + 0.05, 'pop', { pitch: 440, gain: -18 });
+  snd(tFriend - 0.08, 'pop', { pitch: 880, gain: -18, pan: pan(1085) });
+  for (let tt = tFriend + Math.PI / 2 / 7.5; tt < t13out - 0.2; tt += (2 * Math.PI) / 7.5) snd(tt - 0.03, 'heartbeat', { gain: -17 });
+  snd(at('team', 'Jerry') - 0.12, 'swish', { dur: 0.4, gain: -25 });
+  members.forEach((m, k) => snd(tAmazing - 0.17 + k * 0.045, 'pop', { pitch: SOUND.note(k), gain: -23, pan: pan(960 + Math.cos(m.a) * m.rx) }));
+  snd(tAmazing + 0.05, 'chime', { notes: [0, 4, 7, 9, 11], spacing: 0.06, decay: 1.6, gain: -21 });
+  snd(tAmazing + 0.15, 'swish', { dur: 0.4, gain: -26 });
 
   // =================================================== 14. the whole October month
   const t14in = at('october') - 0.1;
@@ -1028,6 +1185,15 @@ window.buildScenes = function () {
   tl.to('#cal-month', { scale: 1.08, duration: 0.18, yoyo: true, repeat: 1, transformOrigin: '0% 50%', ease: 'power2.out' }, tOct - 0.08);
   tl.to('#cal', { borderColor: 'rgba(152,125,248,.55)', duration: 0.4 }, tOct);
   glow(tOct, 1.3, 1.0);
+
+  // sound
+  snd(t14in, 'whoosh', { dur: 0.6, gain: -20 });
+  snd(t14in + 0.4, 'pop', { pitch: 740, gain: -20, pan: pan(1230) });
+  dayFills.forEach((d, i) => {
+    const day = i + 1, col = (day + 2) % 7, row = Math.floor((day + 2) / 7);
+    snd(fillStart + i * 0.036, 'marimba', { deg: row + col, gain: -23, pan: (col - 3) * 0.15, decay: 0.3 });
+  });
+  snd(tOct - 0.08, 'sparkle', { dur: 0.7, n: 10, gain: -25 });
 
   // =================================================== 15. back to the video
   const t15in = at('back') - 0.15;
@@ -1057,6 +1223,21 @@ window.buildScenes = function () {
     const pb = $('#progress-b');
     pb.querySelector('.played').style.width = P15.p * 100 + '%';
     pb.querySelector('.knob').style.left = P15.p * 100 + '%';
+  });
+
+  // sound
+  snd(t15in, 'sting', { variant: 'end', gain: -1 });
+  snd(tBack - 0.15, 'swish', { dur: 0.35, gain: -23 });
+  snd(tBack + 0.05, 'pop', { pitch: 440, gain: -17 });
+  snd(tBack + 0.07, 'click', { gain: -18 });
+  snd(tRewind - 0.05, 'rewind', { dur: 0.75, gain: -18 });
+  snd(tIris, 'whoosh', { dur: 0.55, f0: 3000, fp: 1400, f1: 200, peakAt: 0.9, gain: -19, body: 0.5 });
+  snd(tIris + 0.52, 'thud', { gain: -15 });
+
+  // ambience bed: swells on the hero moments, muffled during the flashback
+  SOUND.ambience({
+    start: 0.1, fadeOut: tIris, muffle: [t5in, t6in], bright: t6in, gain: -31,
+    swells: [[tLI, 3], [tSwap + 0.4, 2.5], [t6in, 4], [tPers + 0.1, 2], [tTop, 2], [tCopy, 2], [tAmazing, 3], [tOct, 2], [t15in, 3]],
   });
 
   // ============================================================ global layers

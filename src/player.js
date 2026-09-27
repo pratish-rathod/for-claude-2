@@ -39,8 +39,11 @@
     const btn = document.getElementById('btn-play');
     const caption = document.getElementById('caption');
     const chk = document.getElementById('chk-captions');
+    const chkSound = document.getElementById('chk-sound');
     const audio = new Audio();
     let hasAudio = false;
+    // sound design (rendered once on first play, then played in sync)
+    let ac = null, sdBuf = null, sdSrc = null, sdT0 = 0, sdCtx0 = 0, sdLoading = null;
     let t = Math.min(DUR, +params.get('t') || 0);
     let playing = false;
     let last = performance.now();
@@ -55,9 +58,39 @@
       clock.textContent = t.toFixed(2) + 's';
       caption.textContent = chk.checked ? lineAt(t) : '';
     }
+    function ensureSound() {
+      if (sdBuf) return Promise.resolve();
+      if (!sdLoading) {
+        btn.textContent = 'Rendering sound...';
+        btn.disabled = true;
+        sdLoading = window.SOUND.render({ stem: 'mix' })
+          .then((b) => { sdBuf = b; })
+          .catch((e) => { console.error(e); chkSound.checked = false; })
+          .finally(() => { btn.disabled = false; btn.textContent = playing ? 'Pause' : 'Play'; });
+      }
+      return sdLoading;
+    }
+    function stopSound() {
+      if (!sdSrc) return;
+      try { sdSrc.stop(); } catch (e) { /* already stopped */ }
+      sdSrc.disconnect();
+      sdSrc = null;
+    }
+    function startSound() {
+      stopSound();
+      if (!chkSound.checked || !sdBuf || !ac) return;
+      if (ac.state === 'suspended') ac.resume();
+      sdSrc = ac.createBufferSource();
+      sdSrc.buffer = sdBuf;
+      sdSrc.connect(ac.destination);
+      sdCtx0 = ac.currentTime + 0.03;
+      sdT0 = t;
+      sdSrc.start(sdCtx0, t);
+    }
     function setPlaying(p) {
       playing = p;
       btn.textContent = p ? 'Pause' : 'Play';
+      if (p) startSound(); else stopSound();
       if (hasAudio) {
         if (p) { audio.currentTime = t; audio.play(); } else audio.pause();
       }
@@ -65,7 +98,8 @@
     }
     function loop(now) {
       if (playing) {
-        t = hasAudio ? audio.currentTime : t + (now - last) / 1000;
+        if (sdSrc) t = sdT0 + Math.max(0, ac.currentTime - sdCtx0);
+        else t = hasAudio ? audio.currentTime : t + (now - last) / 1000;
         last = now;
         if (t >= DUR) { t = DUR; setPlaying(false); }
         draw();
@@ -73,9 +107,25 @@
       requestAnimationFrame(loop);
     }
 
-    btn.onclick = () => { if (t >= DUR) t = 0; setPlaying(!playing); };
-    scrub.oninput = () => { t = (scrub.value / 1000) * DUR; if (hasAudio) audio.currentTime = t; draw(); };
+    btn.onclick = async () => {
+      if (t >= DUR) t = 0;
+      if (!playing && chkSound.checked) {
+        ac = ac || new AudioContext(); // created inside the click so the browser allows playback
+        await ensureSound();
+      }
+      setPlaying(!playing);
+    };
+    scrub.oninput = () => {
+      t = (scrub.value / 1000) * DUR;
+      if (hasAudio) audio.currentTime = t;
+      if (playing) startSound();
+      draw();
+    };
     chk.onchange = draw;
+    chkSound.onchange = () => {
+      if (!chkSound.checked) stopSound();
+      else if (playing) { ac = ac || new AudioContext(); ensureSound().then(() => playing && startSound()); }
+    };
     document.getElementById('vo-file').onchange = (e) => {
       const f = e.target.files[0];
       if (!f) return;
@@ -91,5 +141,6 @@
     addEventListener('resize', fit);
     draw();
     requestAnimationFrame(loop);
+    if (chkSound.checked) setTimeout(() => ensureSound().then(() => { if (!playing) btn.textContent = 'Play'; }), 300);
   }
 })();

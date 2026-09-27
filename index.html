@@ -100,9 +100,9 @@
     <!-- 3. Jerry Liu, founder, on my podcast in 2023 -->
     <section class="shot" id="s-jerry">
       <div class="jerry-cam">
-        <div class="photo-wrap c" id="jerry-photo" style="left:640px;top:540px">
-          <div class="photo-ring"></div>
-          <img src="assets/img/jerry-liu.jpg" alt="Jerry Liu">
+        <div class="portrait c" id="jerry-photo" style="left:590px;top:540px">
+          <div class="portrait-border"><div class="spin"></div></div>
+          <div class="portrait-inner"><img src="assets/img/jerry-portrait.jpg" alt="Jerry Liu"></div>
           <div class="mic-badge"><i data-icon="mic"></i></div>
         </div>
         <div class="jerry-text" style="left:880px;top:330px">
@@ -401,6 +401,7 @@
   <input id="scrub" type="range" min="0" max="1000" value="0" step="1">
   <span id="clock" class="mono">0.00</span>
   <label title="Show the script line under the video to check pacing"><input type="checkbox" id="chk-captions" checked> captions</label>
+  <label title="Play the sound design (rendered in the browser on first play)"><input type="checkbox" id="chk-sound" checked> sound</label>
   <label class="file-btn" title="Load your recorded voiceover to check sync">Load VO <input type="file" id="vo-file" accept="audio/*"></label>
   <div id="caption"></div>
 </div>
@@ -411,6 +412,7 @@
 <script src="src/parsebench.js"></script>
 <script src="src/cues.js"></script>
 <script src="src/lib.js"></script>
+<script src="src/sound.js"></script>
 <script src="src/scenes.js"></script>
 <script src="src/player.js"></script>
 </body>

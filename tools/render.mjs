@@ -1,12 +1,14 @@
 // Render the animation to MP4.
 //
-//   node tools/render.mjs                                  # 1920x1080 @ 60 fps -> out/llamaparse-sponsor-1080p60.mp4
+//   node tools/render.mjs                                  # 1920x1080 @ 60 fps with sound -> out/llamaparse-sponsor-1080p60.mp4
 //   node tools/render.mjs --fps 30 --out out/sponsor-30.mp4
 //   node tools/render.mjs --fps 30 --scale 0.5 --out out/draft.mp4   # quick draft
-//   node tools/render.mjs --audio vo.wav                   # mux your voiceover in
+//   node tools/render.mjs --vo vo.wav                      # add your voiceover; the sound design ducks under it
+//   node tools/render.mjs --no-sound                       # picture only
 //
 // Frames are captured from headless Chromium (one page per worker), piped to
-// ffmpeg per chunk, then the chunks are joined without re-encoding.
+// ffmpeg per chunk, then the chunks are joined without re-encoding. The sound
+// design (src/sound.js) is rendered in the same browser and muxed in.
 // ffmpeg is taken from $FFMPEG, then PATH.
 import { chromium } from 'playwright';
 import { spawn, spawnSync } from 'node:child_process';
@@ -14,6 +16,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { startServer } from './serve.mjs';
+import { renderSound } from './sound.mjs';
 
 const argv = process.argv.slice(2);
 const opt = (name, def) => {
@@ -25,7 +28,8 @@ const SCALE = Number(opt('scale', 1));
 const CRF = Number(opt('crf', 16));
 const PRESET = opt('preset', 'slow');
 const WORKERS = Number(opt('workers', Math.max(1, Math.min(4, os.cpus().length - 1))));
-const AUDIO = opt('audio', null);
+const VO = opt('vo', opt('audio', null));
+const SOUND = !argv.includes('--no-sound');
 const OUT = path.resolve(opt('out', `out/llamaparse-sponsor-${Math.round(1080 * SCALE)}p${FPS}.mp4`));
 const FROM = opt('from', null);
 const TO = opt('to', null);
@@ -121,17 +125,41 @@ await Promise.all(chunks.map(async (c) => {
 progress();
 console.log('');
 
+let soundFile = null;
+if (SOUND) {
+  console.log('Rendering sound design...');
+  soundFile = (await renderSound(browser, url, [['mix', 'sound-design.wav']], tmp)).mix;
+}
 await browser.close();
 server.close();
 
-// Join chunks (and optionally mux audio)
+// Join the chunks, then add sound design and/or voiceover.
 const list = path.join(tmp, 'list.txt');
 fs.writeFileSync(list, chunks.map((c) => `file '${c.file}'`).join('\n'));
-const joinArgs = ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list];
-if (AUDIO) joinArgs.push('-i', path.resolve(AUDIO), '-map', '0:v', '-map', '1:a', '-c:a', 'aac', '-b:a', '256k', '-shortest');
-joinArgs.push('-c:v', 'copy', '-movflags', '+faststart', OUT);
-const j = spawnSync(FFMPEG, joinArgs, { stdio: 'inherit' });
+const video = path.join(tmp, 'video.mp4');
+const j = spawnSync(FFMPEG, ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', video], { stdio: 'inherit' });
 if (j.status !== 0) process.exit(j.status || 1);
+
+const trim = ['-ss', String(first / FPS), '-t', String(total / FPS)];
+const args = ['-y', '-loglevel', 'error', '-i', video];
+const audioIn = [];
+if (soundFile) { args.push(...trim, '-i', soundFile); audioIn.push('sd'); }
+if (VO) { args.push(...trim, '-i', path.resolve(VO)); audioIn.push('vo'); }
+args.push('-map', '0:v');
+if (audioIn.length === 2) {
+  // duck the sound design under the voice (sidechain), then sum
+  args.push('-filter_complex',
+    '[2:a]aformat=sample_rates=48000:channel_layouts=stereo,asplit=2[vo][key];' +
+    '[1:a][key]sidechaincompress=threshold=0.03:ratio=4:attack=15:release=350[sd];' +
+    '[vo][sd]amix=inputs=2:normalize=0:duration=longest[a]',
+    '-map', '[a]');
+} else if (audioIn.length === 1) {
+  args.push('-map', '1:a');
+}
+if (audioIn.length) args.push('-c:a', 'aac', '-b:a', '320k', '-ar', '48000');
+args.push('-c:v', 'copy', '-movflags', '+faststart', OUT);
+const m = spawnSync(FFMPEG, args, { stdio: 'inherit' });
+if (m.status !== 0) process.exit(m.status || 1);
 fs.rmSync(tmp, { recursive: true, force: true });
 
 const mb = (fs.statSync(OUT).size / 1048576).toFixed(1);
