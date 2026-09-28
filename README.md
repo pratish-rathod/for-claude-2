@@ -17,7 +17,7 @@ Times are the defaults in `src/cues.js`. They are estimated for a read at about 
 | 1 | 0:00 | *Quick interruption from my future self* | A pause button slams in and flips to fast-forward. The progress bar zips ahead with a "future me" tag. |
 | 2 | 0:03 | *…present you a very nice sponsor… on the podcast a few years ago,* | A gift box drops in and its lid rattles on "sponsor". A podcast episode card slides in and its year rolls back from 2026 to 2023. |
 | | 0:10 | *LlamaIndex.* | The gift bursts open into the **LlamaIndex logo**, with confetti and light rays. |
-| | 0:11 | *Yes, the very same RAG framework* | The logo moves up and a Docs → Index → LLM → Answer pipeline builds with a **RAG** chip. |
+| | 0:11 | *Yes, the very same RAG framework* | The LlamaIndex logo holds center stage on its own. |
 | 3 | 0:13 | *where I had Jerry Liu, the founder, on my podcast in 2023.* | Jerry Liu's portrait, name, "Founder, LlamaIndex", Podcast and 2023 chips, and a live waveform. |
 | 4 | 0:18 | *Except now it's all about LlamaParse, their agentic OCR.* | "Index" rolls out, "Parse" rolls in (**LlamaIndex → LlamaParse**), and the logo spins. An *Agentic OCR* chip appears as a scan beam passes. |
 | 5 | 0:22 | *In the episode I recorded with Jerry, I told him that PDFs would remain a problem for a very long time,* | Grayscale 2023 flashback of the podcast recording. A PDF then becomes a garbled `output.txt` with red warnings, and a year ticker counts 2023 → 2026. |
@@ -69,7 +69,7 @@ All of the sound is synthesized: oscillators, seeded noise, filters and a genera
 | Shot | Sounds |
 |------|--------|
 | Interruption | Record scratch and a thud as the pause button slams in, then a tape fast-forward whoosh to "future me" |
-| Sponsor → LlamaIndex | The gift drops with a thud and its lid rattles. The podcast card swipes in, and the year rewinds with clock ticks. The gift bursts into a logo sting (reverse swell, hit, bell chord, sparkles) with confetti. The RAG nodes pop in on a rising scale |
+| Sponsor → LlamaIndex | The gift drops with a thud and its lid rattles. The podcast card swipes in, and the year rewinds with clock ticks. The gift bursts into a logo sting (reverse swell, hit, bell chord, sparkles) with confetti |
 | Jerry | Pops for the photo and chips, and a card flip for "2023" |
 | LlamaParse | Letter ticks as "Index" rolls out and "Parse" rolls in, a brighter logo sting, and a scanner sweep for "agentic OCR" |
 | 2023 flashback | Everything goes lo-fi, with vinyl crackle and muffled ambience: a record beep, a paper slide, garbled teletype chatter, three error bonks with a glitch, then clock ticks speeding up into a riser |

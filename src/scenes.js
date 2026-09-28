@@ -388,7 +388,7 @@ window.buildScenes = function () {
     pa.querySelector('.knob').style.left = P1.p * 100 + '%';
   });
 
-  // =================================================== 2. sponsor -> LlamaIndex -> RAG
+  // =================================================== 2. sponsor -> LlamaIndex
   const t2in = at('sponsor') - 0.08;
   const t2out = at('jerry') - 0.04;
   shot('#s-brand', t2in, t2out, { drift: 0.02, fadeIn: 0.2 });
@@ -463,33 +463,8 @@ window.buildScenes = function () {
     });
   });
 
-  // "Yes, the very same RAG framework"
-  const tRag = at('rag');
-  const tRagWord = at('rag', 'rag');
-  tl.to('#li-wrap', { y: -225, scale: 0.6, duration: 0.8, ease: 'power3.inOut' }, tRag - 0.12);
-  gsap.set('#rag .rag-node', { autoAlpha: 0, y: 50, scale: 0.8 });
-  tl.to('#rag .rag-node', { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.6)', stagger: 0.1 }, tRag + 0.3);
-  gsap.set('#rag .rag-lines path', { opacity: 0 });
-  tl.to('#rag .rag-lines path', { opacity: 1, duration: 0.4, stagger: 0.1 }, tRag + 0.55);
-  gsap.set('#rag-chip', { autoAlpha: 0, scale: 0.6 });
-  tl.to('#rag-chip', { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(2.5)' }, tRagWord - 0.12);
-  tl.to('#rag .node-box', {
-    borderColor: 'rgba(152,125,248,.85)',
-    boxShadow: '0 30px 70px rgba(0,0,0,.55), 0 0 44px rgba(107,91,255,.5), inset 0 1.5px 0 rgba(255,255,255,.07)',
-    duration: 0.3, stagger: 0.1,
-  }, tRagWord - 0.05);
-  const ragPaths = $$('#rag .rag-lines path');
-  const ragPulses = ['#rag-pulse1', '#rag-pulse2', '#rag-pulse3'].map((s) => $(s));
+  // "Yes, the very same RAG framework": the LlamaIndex logo simply holds centre stage
   frame(t2in, t2out, (t) => {
-    const u = t - tRag - 0.8;
-    ragPaths.forEach((p) => (p.style.strokeDashoffset = (-t * 36).toFixed(1)));
-    ragPulses.forEach((e, k) => {
-      if (u < k * 0.18) { e.style.opacity = 0; return; }
-      const x0 = [575, 895, 1215][k], x1 = x0 + 130;
-      const ph = ((u - k * 0.18) * 1.15) % 1;
-      e.style.transform = `translate(${lerp(x0, x1, ph)}px, 700px)`;
-      e.style.opacity = Math.sin(Math.PI * ph).toFixed(3);
-    });
     const r = t - tLI;
     $('#burst .rays').style.transform = `rotate(${(r * 14).toFixed(2)}deg)`;
     const lvl = prog(t, tPod + 0.2, tPod + 0.8) * (1 - prog(t, tLI - 0.5, tLI - 0.1));
@@ -513,10 +488,6 @@ window.buildScenes = function () {
   snd(tLI, 'sting', { variant: 'index' });
   snd(tLI + 0.02, 'confetti', { gain: -22 });
   snd(tLI + 0.46, 'swish', { dur: 0.5, f0: 1500, fp: 4500, f1: 2500, gain: -26, pan: -0.3, pan1: 0.4 });
-  snd(tRag - 0.12, 'swish', { dur: 0.5, f0: 800, fp: 3000, f1: 1600, gain: -24 });
-  [480, 800, 1120, 1440].forEach((x, i) => snd(tRag + 0.3 + i * 0.1, 'pop', { pitch: SOUND.note([0, 2, 3, 5][i]), gain: -20, pan: pan(x) }));
-  snd(tRagWord - 0.12, 'marimba', { deg: 5, gain: -21, decay: 0.8 });
-  snd(tRag + 0.8, 'zip', { dur: 0.9, f0: 600, f1: 1500, gain: -28, pan: -0.5, pan1: 0.5 });
 
   // =================================================== 3. Jerry Liu on the podcast
   const t3in = at('jerry') - 0.12;

@@ -214,21 +214,6 @@ svg.ico.solid { fill: currentColor; stroke-width: 1.2; }
 
 .lockup-wrap { white-space: nowrap; }
 #li-word { display: inline-block; }
-.rag-lines { position: absolute; left: 0; top: 0; overflow: visible; }
-.rag-lines path { fill: none; stroke: rgba(197,189,255,.45); stroke-width: 3; stroke-dasharray: 8 10; }
-.rag-node { width: 190px; height: 0; }
-.rag-node .node-box {
-  width: 172px; height: 172px; border-radius: 34px; display: grid; place-items: center; font-size: 76px; color: #fff;
-  background: linear-gradient(180deg, rgba(34,34,43,.96), rgba(18,18,24,.96));
-  border: 1.5px solid rgba(255,255,255,.12);
-  box-shadow: 0 30px 70px rgba(0,0,0,.55), inset 0 1.5px 0 rgba(255,255,255,.07);
-}
-.rag-node .node-box svg.ico { stroke-width: 1.6; }
-.rag-node span { font-size: 28px; color: var(--muted); font-weight: 500; }
-.rag-node .node-box { position: absolute; left: 9px; top: -86px; }
-.rag-node span { position: absolute; left: 0; right: 0; top: 106px; text-align: center; }
-.pulse { position: absolute; left: 0; top: 0; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
-  background: #fff; box-shadow: 0 0 14px 4px rgba(152,125,248,.9), 0 0 36px 10px rgba(62,180,251,.45); opacity: 0; }
 
 /* ---------- 3. Jerry ---------- */
 .photo-wrap { width: 380px; height: 380px; }
